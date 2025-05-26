@@ -12,29 +12,34 @@ impl Entity {
              self.name, self.life, self.def, self.atk
         );
     }
-    pub fn attack(&self, ennemy: Entity) {
-        if (self.atk < ennemy.def) {
-            println!("{self.name}: atk has no effet against {ennemy.name}")
+    pub fn attack(&self,  ennemy: &mut Entity) {
+        if self.atk < ennemy.def {
+            println!("{}: atk has no effet against {}", self.name, ennemy.name);
         } else {
-            // total_damage = atk * if def / 100 * atk
-            continue;
+            let total_damage = self.atk - ennemy.def;
+            println!("{}: dealt {} to {}", self.name, total_damage, ennemy.name);
+            ennemy.life -= total_damage
         }
     }
 }
 
 fn main() {
-    let blob = Entity {
+    let mut blob = Entity {
         name: "bob".to_string(),
         life: 42,
         atk: 10,
         def: 20,
     };
-    let wolf = Entity {
+    let mut wolf = Entity {
         name: "Dennis".to_string(),
         life: 42,
         def: 10,
         atk: 32,
     };
+    wolf.display();
+    blob.display();
+    wolf.attack(&mut blob);
+    blob.attack(&mut wolf);
     wolf.display();
     blob.display();
 }
